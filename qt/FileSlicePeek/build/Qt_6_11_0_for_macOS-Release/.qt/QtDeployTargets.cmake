@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_appFileSlicePeek_FILE /opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release/appFileSlicePeek.app/Contents/MacOS/appFileSlicePeek)
+set(__QT_DEPLOY_TARGET_appFileSlicePeek_TYPE EXECUTABLE)

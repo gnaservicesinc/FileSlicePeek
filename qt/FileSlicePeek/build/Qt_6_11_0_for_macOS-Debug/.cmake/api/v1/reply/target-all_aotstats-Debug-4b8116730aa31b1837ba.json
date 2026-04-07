@@ -1,0 +1,246 @@
+{
+	"backtrace" : 3,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target",
+			"_qt_internal_deferred_aotstats_setup",
+			"add_custom_command",
+			"qt6_target_qml_sources",
+			"qt6_add_qml_module",
+			"qt_add_qml_module",
+			"_qt_internal_qml_type_registration",
+			"qt6_extract_metatypes"
+		],
+		"files" : 
+		[
+			"/opt/Qt/6.11.0/macos/lib/cmake/Qt6Qml/Qt6QmlMacros.cmake",
+			"/opt/Qt/6.11.0/macos/lib/cmake/Qt6Qml/Qt6QmlMacros.cmake:1272:EVAL",
+			"CMakeLists.txt",
+			"/opt/Qt/6.11.0/macos/lib/cmake/Qt6Core/Qt6CoreMacros.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"file" : 2,
+				"line" : -1,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 1,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1387,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 1365,
+				"parent" : 2
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 1507,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 1035,
+				"parent" : 6
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 3864,
+				"parent" : 7
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 910,
+				"parent" : 6
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 4286,
+				"parent" : 9
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 4181,
+				"parent" : 9
+			},
+			{
+				"command" : 2,
+				"file" : 3,
+				"line" : 1559,
+				"parent" : 11
+			},
+			{
+				"command" : 2,
+				"file" : 3,
+				"line" : 1501,
+				"parent" : 11
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "module_appFileSlicePeek_aotstats_target::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "appFileSlicePeek_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "all_aotstats::@6890427a1f51a3e7e1df",
+	"name" : "all_aotstats",
+	"orderDependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "Qt6::qmlaotstats::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "Qt6::qmlcachegen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 10,
+			"id" : "Qt6::qmltyperegistrar::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 12,
+			"id" : "Qt6::moc::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 13,
+			"id" : "Qt6::cmake_automoc_parser::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "module_appFileSlicePeek_aotstats_target::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "appFileSlicePeek_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 3,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/CMakeFiles/all_aotstats",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/CMakeFiles/all_aotstats.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/.rcc/qmlcache/all_aotstats.aotstats.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/.rcc/qmlcache/module_appFileSlicePeek.aotstats.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/.rcc/qmlcache/appFileSlicePeek_Main_qml.cpp.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/appfileslicepeek_qmltyperegistrations.cpp.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/meta_types/qt6appfileslicepeek_metatypes.json.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/meta_types/qt6appfileslicepeek_metatypes.json.gen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/meta_types/appFileSlicePeek_json_file_list.txt.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Qt_6_11_0_for_macOS-Debug/appFileSlicePeek_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

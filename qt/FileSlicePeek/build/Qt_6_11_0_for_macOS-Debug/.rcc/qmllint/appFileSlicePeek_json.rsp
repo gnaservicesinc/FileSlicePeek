@@ -1,0 +1,16 @@
+--bare
+-I
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug
+-I
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/FileSlicePeek
+-I
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug
+-I
+/opt/Qt/6.11.0/macos/qml
+--resource
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/.qt/rcc/qmake_FileSlicePeek.qrc
+--resource
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/.qt/rcc/appFileSlicePeek_raw_qml_0.qrc
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/Main.qml
+--json
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/appFileSlicePeek_qmllint.json

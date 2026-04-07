@@ -1,0 +1,5 @@
+--resource
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/.qt/rcc/qmake_FileSlicePeek.qrc
+--resource
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/.qt/rcc/appFileSlicePeek_raw_qml_0.qrc
+/qt/qml/FileSlicePeek/Main.qml

@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/qt/qml/FileSlicePeek">/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release/FileSlicePeek</file>
+
+  </qresource>
+</RCC>

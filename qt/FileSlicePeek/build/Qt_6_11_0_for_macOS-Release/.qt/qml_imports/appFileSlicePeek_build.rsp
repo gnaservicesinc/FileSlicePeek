@@ -1,0 +1,14 @@
+-rootPath
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek
+-cmake-output
+-output-file
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release/.qt/qml_imports/appFileSlicePeek_build.cmake
+-importPath
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release
+-importPath
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release/FileSlicePeek
+-importPath
+/opt/Qt/6.11.0/macos/qml
+-qrcFiles
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release/.qt/rcc/qmake_FileSlicePeek.qrc
+/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Release/.qt/rcc/appFileSlicePeek_raw_qml_0.qrc

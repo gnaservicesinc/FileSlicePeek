@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/FileSlicePeek">
+    <file alias="qmldir">/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/build/Qt_6_11_0_for_macOS-Debug/FileSlicePeek/qmldir</file>
+  </qresource>
+</RCC>
+

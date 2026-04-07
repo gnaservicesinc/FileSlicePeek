@@ -1,0 +1,15 @@
+{
+    "formatRevision": 1,
+    "modules": [
+        {
+            "moduleFiles": [
+                {
+                    "entries": [
+                    ],
+                    "filePath": "/opt/FilePeekC/repo/FileSlicePeek/qt/FileSlicePeek/Main.qml"
+                }
+            ],
+            "moduleId": "FileSlicePeek(appFileSlicePeek)"
+        }
+    ]
+}
