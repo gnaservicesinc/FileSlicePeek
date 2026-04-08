@@ -11,14 +11,13 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             headerBar
-            Divider().opacity(0.25)
+            Divider()
             content
-            Divider().opacity(0.25)
+            Divider()
             statusBar
         }
-        .background(Color(red: 0.16, green: 0.17, blue: 0.22))
-        .frame(minWidth: 1120, minHeight: 760)
-        .preferredColorScheme(.dark)
+        .background(Color(nsColor: .windowBackgroundColor))
+        .frame(minWidth: 1180, minHeight: 820)
         .alert("Something went wrong", isPresented: Binding(
             get: { model.errorMessage != nil },
             set: { if $0 == false { model.dismissError() } }
@@ -45,7 +44,6 @@ struct ContentView: View {
                     .labelStyle(.titleAndIcon)
             }
             .buttonStyle(.borderedProminent)
-            .tint(Color(red: 0.47, green: 0.49, blue: 0.61))
             .keyboardShortcut("o")
 
             pathBar
@@ -64,7 +62,7 @@ struct ContentView: View {
                 Button("Save") {
                     model.saveFile()
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.borderedProminent)
                 .keyboardShortcut("s")
 
                 Button("Revert") {
@@ -76,13 +74,13 @@ struct ContentView: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
-        .background(Color(red: 0.18, green: 0.19, blue: 0.25))
+        .background(Color(nsColor: .underPageBackgroundColor))
     }
 
     private var pathBar: some View {
         HStack(spacing: 8) {
             Image(systemName: model.hasFile ? "doc.richtext.fill" : "doc")
-                .foregroundStyle(Color.white.opacity(0.86))
+                .foregroundStyle(.secondary)
                 .font(.system(size: 18, weight: .semibold))
 
             if model.hasFile {
@@ -92,31 +90,28 @@ struct ContentView: View {
                             if index > 0 {
                                 Image(systemName: "chevron.right")
                                     .font(.system(size: 9, weight: .bold))
-                                    .foregroundStyle(Color.white.opacity(0.35))
+                                    .foregroundStyle(.tertiary)
                             }
 
                             Text(item)
                                 .font(.system(size: 12, weight: .medium))
-                                .foregroundStyle(Color.white.opacity(0.82))
+                                .foregroundStyle(.primary)
                         }
                     }
                 }
             } else {
                 Text("Drop a file or application here, or use Choose File.")
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(Color.white.opacity(0.7))
+                    .foregroundStyle(.secondary)
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(Color.white.opacity(0.06))
-        )
+        .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(Color(nsColor: .controlBackgroundColor)))
         .overlay(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                .stroke(Color(nsColor: .separatorColor), lineWidth: 1)
         )
     }
 
@@ -168,11 +163,11 @@ struct ContentView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Base64")
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(Color.white.opacity(0.92))
+                        .foregroundStyle(.primary)
 
-                    Text(model.base64IsReady ? "Ready to copy or export." : "Generated on demand to keep the editor lightweight.")
+                    Text(model.base64IsReady ? "Ready to copy or export." : "Generated on demand to keep the app lightweight.")
                         .font(.system(size: 13))
-                        .foregroundStyle(Color.white.opacity(0.68))
+                        .foregroundStyle(.secondary)
 
                     HStack(spacing: 10) {
                         Button("Copy") {
@@ -199,6 +194,7 @@ struct ContentView: View {
             detailCard(padding: 12) {
                 HexDocumentEditorView(model: model)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(minHeight: 520)
             }
 
             selectionCard
@@ -215,7 +211,7 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    .frame(width: 140)
+                    .frame(width: 150)
 
                     LabeledField(label: "Find", text: $model.findQuery, placeholder: model.searchMode == .hex ? "89 50 4E 47" : "Search text")
                     LabeledField(label: "Replace", text: $model.replaceQuery, placeholder: model.searchMode == .hex ? "FF D8 FF E0" : "Replacement text")
@@ -259,31 +255,26 @@ struct ContentView: View {
                 HStack(spacing: 14) {
                     Text(model.selectionDescription)
                         .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                        .foregroundStyle(Color.white.opacity(0.88))
+                        .foregroundStyle(.primary)
 
                     Spacer(minLength: 0)
 
                     Text("Length")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(Color.white.opacity(0.72))
+                        .foregroundStyle(.secondary)
 
-                    Stepper(value: $model.selectionLength, in: 1...max(model.dataCount, 1)) {
+                    Stepper(value: $model.selectionLength, in: 0...max(model.dataCount, 0)) {
                         Text("\(max(model.selectionLength, 0))")
                             .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                            .foregroundStyle(Color.white.opacity(0.88))
+                            .foregroundStyle(.primary)
                             .frame(width: 54, alignment: .trailing)
                     }
                     .labelsHidden()
 
                     TextField("0x0", text: $model.jumpQuery)
-                        .textFieldStyle(.plain)
+                        .textFieldStyle(.roundedBorder)
                         .font(.system(size: 13, weight: .medium, design: .monospaced))
-                        .foregroundStyle(Color.white.opacity(0.88))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 8)
                         .frame(width: 120)
-                        .background(Color.white.opacity(0.06))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 
                     Button("Move") {
                         model.moveSelection()
@@ -294,12 +285,12 @@ struct ContentView: View {
                 HStack(spacing: 12) {
                     Text("Direct edit")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(Color.white.opacity(0.72))
+                        .foregroundStyle(.secondary)
                         .frame(width: 88, alignment: .leading)
 
-                    Text("Drag-select in either pane, then type, paste, or copy just like a text editor. The helper fields below still work for larger replacements.")
+                    Text("Click or drag in the hex or text pane, then type or paste directly. The helper fields below are for deliberate range replacements.")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(Color.white.opacity(0.72))
+                        .foregroundStyle(.secondary)
 
                     Spacer(minLength: 0)
                 }
@@ -314,7 +305,7 @@ struct ContentView: View {
                 }
 
                 HStack(spacing: 12) {
-                    LabeledField(label: "Text", text: $textEditorDraft, placeholder: "Editable UTF-8 text")
+                    LabeledField(label: "Text", text: $textEditorDraft, placeholder: "ASCII replacement")
 
                     Button("Apply Text") {
                         model.applyTextEdit(textEditorDraft)
@@ -344,12 +335,11 @@ struct ContentView: View {
             if model.isLoading {
                 ProgressView()
                     .controlSize(.small)
-                    .tint(.white)
             }
 
             Text(model.statusText)
                 .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(Color.white.opacity(0.8))
+                .foregroundStyle(.secondary)
                 .lineLimit(2)
 
             Spacer(minLength: 0)
@@ -357,12 +347,12 @@ struct ContentView: View {
             if model.hasFile {
                 Text(model.windowTitle)
                     .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Color.white.opacity(0.62))
+                    .foregroundStyle(.tertiary)
             }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(Color.black.opacity(0.14))
+        .background(Color(nsColor: .underPageBackgroundColor))
     }
 
     private func detailCard<Content: View>(padding: CGFloat = 18, @ViewBuilder content: () -> Content) -> some View {
@@ -371,11 +361,11 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(Color.white.opacity(0.05))
+                    .fill(Color(nsColor: .controlBackgroundColor))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                    .stroke(Color(nsColor: .separatorColor), lineWidth: 1)
             )
     }
 
@@ -424,27 +414,25 @@ private struct EmptyStateView: View {
     var body: some View {
         VStack(spacing: 24) {
             RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .strokeBorder(
-                    style: StrokeStyle(lineWidth: 3, dash: [10, 6])
-                )
-                .foregroundStyle(isDropTargeted ? Color.white.opacity(0.82) : Color.white.opacity(0.55))
+                .strokeBorder(style: StrokeStyle(lineWidth: 3, dash: [10, 6]))
+                .foregroundStyle(isDropTargeted ? Color.accentColor : Color.secondary)
                 .background(
                     RoundedRectangle(cornerRadius: 28, style: .continuous)
-                        .fill(Color.white.opacity(isDropTargeted ? 0.08 : 0.03))
+                        .fill(Color(nsColor: .controlBackgroundColor))
                 )
                 .overlay {
                     VStack(spacing: 20) {
                         Image(systemName: "square.and.arrow.down.on.square.fill")
                             .font(.system(size: 38))
-                            .foregroundStyle(Color.white.opacity(0.86))
+                            .foregroundStyle(Color.accentColor)
 
                         Text("Drop a file or application here.")
                             .font(.system(size: 32, weight: .bold))
-                            .foregroundStyle(Color.white.opacity(0.95))
+                            .foregroundStyle(.primary)
 
                         Text("Choose a file below if you’d rather browse manually.")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundStyle(Color.white.opacity(0.72))
+                            .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                     }
                     .padding(36)
@@ -453,7 +441,6 @@ private struct EmptyStateView: View {
 
             Button("Choose File…", action: chooseAction)
                 .buttonStyle(.borderedProminent)
-                .tint(Color(red: 0.47, green: 0.49, blue: 0.61))
                 .controlSize(.large)
         }
     }
@@ -467,12 +454,12 @@ private struct DetailRow: View {
         HStack(alignment: .top, spacing: 12) {
             Text(label)
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(Color.white.opacity(0.72))
+                .foregroundStyle(.secondary)
                 .frame(width: 110, alignment: .leading)
 
             Text(value)
                 .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(Color.white.opacity(0.9))
+                .foregroundStyle(.primary)
                 .textSelection(.enabled)
 
             Spacer(minLength: 0)
@@ -490,12 +477,12 @@ private struct CopyableHashRow: View {
         HStack(alignment: .top, spacing: 12) {
             Text(label)
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(Color.white.opacity(0.72))
+                .foregroundStyle(.secondary)
                 .frame(width: 110, alignment: .leading)
 
             Text(value)
                 .font(.system(size: 13, weight: .medium, design: .monospaced))
-                .foregroundStyle(Color.white.opacity(0.92))
+                .foregroundStyle(.primary)
                 .textSelection(.enabled)
 
             Spacer(minLength: 0)
@@ -517,385 +504,12 @@ private struct LabeledField: View {
         HStack(spacing: 10) {
             Text(label)
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(Color.white.opacity(0.72))
+                .foregroundStyle(.secondary)
                 .frame(width: 54, alignment: .leading)
 
             TextField(placeholder, text: $text)
-                .textFieldStyle(.plain)
+                .textFieldStyle(.roundedBorder)
                 .font(.system(size: 13, weight: .medium, design: .monospaced))
-                .foregroundStyle(Color.white.opacity(0.92))
-                .padding(.horizontal, 12)
-                .padding(.vertical, 9)
-                .background(Color.white.opacity(0.06))
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .stroke(Color.white.opacity(0.06), lineWidth: 1)
-                )
         }
     }
-}
-
-private struct CellFocus: Hashable {
-    let mode: ByteEditorMode
-    let offset: Int
-}
-
-private struct HexGridView: View {
-    @ObservedObject var model: HexDocumentModel
-    @State private var focusedCell: CellFocus?
-
-    var body: some View {
-        VStack(spacing: 0) {
-            headerRow
-
-            Divider().overlay(Color.white.opacity(0.08))
-
-            ScrollViewReader { proxy in
-                ScrollView(.vertical) {
-                    LazyVStack(spacing: 2) {
-                        ForEach(0..<model.rowCount, id: \.self) { rowIndex in
-                            HexRowView(
-                                row: model.row(at: rowIndex),
-                                dataCount: max(model.dataCount, 1),
-                                model: model,
-                                focusedCell: $focusedCell
-                            )
-                            .id(rowIndex)
-                        }
-                    }
-                    .padding(.vertical, 8)
-                }
-                .background(Color.black.opacity(0.1))
-                .onChange(of: model.selectionStart) {
-                    if let selectionStart = model.selectionStart {
-                        withAnimation(.easeInOut(duration: 0.18)) {
-                            proxy.scrollTo(selectionStart / HexTools.bytesPerRow, anchor: .center)
-                        }
-                    }
-                }
-            }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-    }
-
-    private var headerRow: some View {
-        HStack(spacing: 0) {
-            Text("Offset")
-                .frame(width: 92, alignment: .leading)
-
-            HStack(spacing: 4) {
-                ForEach(0..<HexTools.bytesPerRow, id: \.self) { value in
-                    Text(String(format: "%02X", value))
-                        .frame(width: 28)
-                }
-            }
-            .frame(width: 28 * CGFloat(HexTools.bytesPerRow) + 4 * CGFloat(HexTools.bytesPerRow - 1), alignment: .leading)
-
-            Text("ASCII")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 14)
-        }
-        .font(.system(size: 12, weight: .bold, design: .monospaced))
-        .foregroundStyle(Color.white.opacity(0.72))
-        .padding(.horizontal, 10)
-        .padding(.vertical, 10)
-        .background(Color.white.opacity(0.05))
-    }
-
-}
-
-private struct HexRowView: View {
-    let row: HexEditorRow
-    let dataCount: Int
-    @ObservedObject var model: HexDocumentModel
-    @Binding var focusedCell: CellFocus?
-
-    var body: some View {
-        HStack(spacing: 0) {
-            Text(HexTools.formatOffset(row.baseOffset, dataCount: dataCount))
-                .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                .foregroundStyle(Color.white.opacity(0.58))
-                .frame(width: 92, alignment: .leading)
-
-            HStack(spacing: 4) {
-                ForEach(0..<HexTools.bytesPerRow, id: \.self) { column in
-                    let offset = row.baseOffset + column
-
-                    if column < row.bytes.count {
-                        EditableByteCell(
-                            mode: .hex,
-                            offset: offset,
-                            width: 28,
-                            model: model,
-                            focusedCell: $focusedCell
-                        )
-                    } else {
-                        Text("  ")
-                            .font(.system(size: 12, weight: .medium, design: .monospaced))
-                            .foregroundStyle(Color.clear)
-                            .frame(width: 28, height: 24)
-                    }
-                }
-            }
-
-            HStack(spacing: 2) {
-                ForEach(0..<HexTools.bytesPerRow, id: \.self) { column in
-                    let offset = row.baseOffset + column
-
-                    if column < row.bytes.count {
-                        EditableByteCell(
-                            mode: .text,
-                            offset: offset,
-                            width: 14,
-                            model: model,
-                            focusedCell: $focusedCell
-                        )
-                    } else {
-                        Text(" ")
-                            .font(.system(size: 12, weight: .medium, design: .monospaced))
-                            .foregroundStyle(Color.clear)
-                            .frame(width: 14, height: 24)
-                    }
-                }
-            }
-            .padding(.leading, 14)
-
-            Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 1)
-        .background(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(row.index.isMultiple(of: 2) ? Color.white.opacity(0.025) : Color.white.opacity(0.055))
-        )
-    }
-}
-
-private struct EditableByteCell: View {
-    let mode: ByteEditorMode
-    let offset: Int
-    var width: CGFloat
-    @ObservedObject var model: HexDocumentModel
-    @Binding var focusedCell: CellFocus?
-    @State private var draft = ""
-
-    private var focusID: CellFocus {
-        CellFocus(mode: mode, offset: offset)
-    }
-
-    private var isSelected: Bool {
-        model.isSelected(offset: offset)
-    }
-
-    private var replacementLength: Int {
-        model.selectionStart == offset ? max(model.selectionLength, 1) : 1
-    }
-
-    var body: some View {
-        SelectableByteTextField(
-            text: $draft,
-            isFocused: focusedCell == focusID,
-            width: width,
-            onActivate: {
-                focusedCell = focusID
-                model.selectRange(start: offset)
-            },
-            onCopy: {
-                model.copySelection(using: mode)
-            },
-            onTextChange: handleDraftChange,
-            onEditingEnded: syncDraftFromModel
-        )
-        .frame(width: width, height: 24)
-        .background(
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .fill(isSelected ? Color(red: 0.88, green: 0.90, blue: 0.97) : Color.clear)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .stroke(
-                    focusedCell == focusID
-                    ? Color.white.opacity(0.35)
-                    : Color.clear,
-                    lineWidth: 1
-                )
-        )
-        .onAppear(perform: syncDraftFromModel)
-        .onChange(of: model.selectionRefreshToken) {
-            if focusedCell != focusID {
-                syncDraftFromModel()
-            }
-        }
-    }
-
-    private func syncDraftFromModel() {
-        draft = switch mode {
-        case .hex:
-            model.hexValue(at: offset)
-        case .text:
-            model.textValue(at: offset)
-        }
-    }
-
-    private func handleDraftChange(_ newValue: String) {
-        model.selectRange(start: offset)
-
-        switch mode {
-        case .hex:
-            let filtered = newValue
-                .uppercased()
-                .filter(\.isHexDigit)
-
-            if filtered != newValue {
-                draft = filtered
-                return
-            }
-
-            guard filtered.isEmpty == false, filtered.count.isMultiple(of: 2) else {
-                return
-            }
-
-            if let written = model.replaceHexInput(filtered, at: offset, replacing: replacementLength) {
-                syncDraftFromModel()
-                advanceFocus(by: written)
-            }
-        case .text:
-            guard newValue.isEmpty == false else {
-                return
-            }
-
-            if let written = model.replaceTextInput(newValue, at: offset, replacing: replacementLength) {
-                syncDraftFromModel()
-                advanceFocus(by: written)
-            }
-        }
-    }
-
-    private func advanceFocus(by bytesWritten: Int) {
-        guard model.dataCount > 0 else {
-            focusedCell = nil
-            return
-        }
-
-        let nextOffset = min(offset + max(bytesWritten, 1), model.dataCount - 1)
-        focusedCell = CellFocus(mode: mode, offset: nextOffset)
-        model.selectRange(start: nextOffset)
-    }
-}
-
-private struct SelectableByteTextField: NSViewRepresentable {
-    @Binding var text: String
-    let isFocused: Bool
-    let width: CGFloat
-    let onActivate: () -> Void
-    let onCopy: () -> Void
-    let onTextChange: (String) -> Void
-    let onEditingEnded: () -> Void
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    func makeNSView(context: Context) -> ActivatingByteTextField {
-        let field = ActivatingByteTextField(frame: .zero)
-        field.delegate = context.coordinator
-        field.isBordered = false
-        field.isBezeled = false
-        field.drawsBackground = false
-        field.focusRingType = .none
-        field.isEditable = true
-        field.isSelectable = true
-        field.alignment = .center
-        field.font = .monospacedSystemFont(ofSize: 12, weight: .medium)
-        field.textColor = .white
-        field.maximumNumberOfLines = 1
-        field.lineBreakMode = .byClipping
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.onActivate = onActivate
-        field.onCopy = onCopy
-        return field
-    }
-
-    func updateNSView(_ nsView: ActivatingByteTextField, context: Context) {
-        context.coordinator.parent = self
-        nsView.onActivate = onActivate
-        nsView.onCopy = onCopy
-
-        if (nsView.currentEditor() == nil || isFocused == false), nsView.stringValue != text {
-            nsView.stringValue = text
-        }
-
-        if isFocused, nsView.window?.firstResponder !== nsView.currentEditor() {
-            DispatchQueue.main.async {
-                guard nsView.window != nil else { return }
-                nsView.window?.makeFirstResponder(nsView)
-                nsView.currentEditor()?.selectedRange = NSRange(location: 0, length: (nsView.stringValue as NSString).length)
-            }
-        }
-    }
-
-    final class Coordinator: NSObject, NSTextFieldDelegate {
-        var parent: SelectableByteTextField
-
-        init(_ parent: SelectableByteTextField) {
-            self.parent = parent
-        }
-
-        func controlTextDidBeginEditing(_ obj: Notification) {
-            parent.onActivate()
-            guard let field = obj.object as? NSTextField else { return }
-            field.currentEditor()?.selectedRange = NSRange(location: 0, length: (field.stringValue as NSString).length)
-        }
-
-        func controlTextDidChange(_ obj: Notification) {
-            guard let field = obj.object as? NSTextField else { return }
-            let value = field.stringValue
-            if parent.text != value {
-                parent.text = value
-            }
-            parent.onTextChange(value)
-        }
-
-        func controlTextDidEndEditing(_ obj: Notification) {
-            parent.onEditingEnded()
-        }
-    }
-}
-
-private final class ActivatingByteTextField: NSTextField {
-    var onActivate: (() -> Void)?
-    var onCopy: (() -> Void)?
-
-    override func mouseDown(with event: NSEvent) {
-        onActivate?()
-        super.mouseDown(with: event)
-    }
-
-    override func becomeFirstResponder() -> Bool {
-        let result = super.becomeFirstResponder()
-        if result {
-            DispatchQueue.main.async {
-                self.currentEditor()?.selectedRange = NSRange(location: 0, length: (self.stringValue as NSString).length)
-            }
-        }
-        return result
-    }
-
-    override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-        if modifiers == .command,
-           event.charactersIgnoringModifiers?.lowercased() == "c",
-           let onCopy
-        {
-            onCopy()
-            return true
-        }
-
-        return super.performKeyEquivalent(with: event)
-    }
-}
-
-#Preview {
-    ContentView()
 }

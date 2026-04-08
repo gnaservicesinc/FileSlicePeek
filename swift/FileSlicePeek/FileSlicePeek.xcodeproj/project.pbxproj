@@ -71,6 +71,28 @@
 		};
 /* End PBXFrameworksBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DBB7A6432F84BD0000125186 /* Build HexFiend Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build HexFiend Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(TARGET_BUILD_DIR)/$(FRAMEWORKS_FOLDER_PATH)/HexFiend.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -euo pipefail\nHEXFIEND_FRAMEWORK=\"/opt/FilePeekC/3rdParty/HexFiend/app/build/${CONFIGURATION}/HexFiend.framework\"\n\nif [ ! -d \"$HEXFIEND_FRAMEWORK\" ]; then\n  echo \"error: HexFiend.framework is missing at $HEXFIEND_FRAMEWORK\" >&2\n  echo \"error: Build HexFiend_Framework first from /opt/FilePeekC/3rdParty/HexFiend/app/HexFiend_2.xcodeproj\" >&2\n  exit 1\nfi\n\nmkdir -p \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\nrm -rf \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HexFiend.framework\"\ncp -R \"$HEXFIEND_FRAMEWORK\" \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HexFiend.framework\"\n\nif [ \"${CODE_SIGNING_ALLOWED}\" = \"YES\" ]; then\n  IDENTITY=\"${EXPANDED_CODE_SIGN_IDENTITY:-}\"\n  if [ -z \"$IDENTITY\" ]; then\n    IDENTITY=\"-\"\n  fi\n  /usr/bin/codesign --force --sign \"$IDENTITY\" --timestamp=none --preserve-metadata=identifier,entitlements \"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HexFiend.framework\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXGroup section */
 		DBB7A60E2F84BCFF00125186 = {
 			isa = PBXGroup;
@@ -100,6 +122,7 @@
 			buildConfigurationList = DBB7A63A2F84BD0000125186 /* Build configuration list for PBXNativeTarget "FileSlicePeek" */;
 			buildPhases = (
 				DBB7A6132F84BCFF00125186 /* Sources */,
+				DBB7A6432F84BD0000125186 /* Build HexFiend Framework */,
 				DBB7A6142F84BCFF00125186 /* Frameworks */,
 				DBB7A6152F84BCFF00125186 /* Resources */,
 			);
@@ -417,7 +440,12 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readwrite;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)",
+				);
 				GCC_UNROLL_LOOPS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -426,6 +454,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					HexFiend,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajs.tools.FileSlicePeek;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -464,7 +497,12 @@
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readwrite;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)",
+				);
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_UNROLL_LOOPS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -474,6 +512,11 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					HexFiend,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajs.tools.FileSlicePeek;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -495,6 +538,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HL53PRRYAK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -517,6 +564,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HL53PRRYAK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -538,6 +589,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HL53PRRYAK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajs.tools.FileSlicePeekUITests;
@@ -558,6 +613,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = HL53PRRYAK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajs.tools.FileSlicePeekUITests;

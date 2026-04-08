@@ -53,6 +53,13 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "DYLD_FRAMEWORK_PATH"
+            value = "$(BUILT_PRODUCTS_DIR)/FileSlicePeek.app/Contents/Frameworks:/opt/FilePeekC/3rdParty/HexFiend/app/build/$(CONFIGURATION)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Release"

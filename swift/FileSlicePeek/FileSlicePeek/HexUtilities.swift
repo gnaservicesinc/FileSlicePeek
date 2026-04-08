@@ -1,5 +1,6 @@
 import CryptoKit
 import Foundation
+import HexFiend
 
 enum SearchMode: String, CaseIterable, Identifiable {
     case hex
@@ -37,6 +38,7 @@ enum HexUtilityError: LocalizedError {
     case emptyInput
     case invalidHex(String)
     case invalidOffset(String)
+    case operationUnavailable(String)
 
     var errorDescription: String? {
         switch self {
@@ -46,6 +48,8 @@ enum HexUtilityError: LocalizedError {
             return "\"\(value)\" is not valid hex. Use pairs like 4F 2A."
         case let .invalidOffset(value):
             return "\"\(value)\" is not a valid offset."
+        case let .operationUnavailable(message):
+            return message
         }
     }
 }
@@ -81,14 +85,6 @@ struct FileMetadataSnapshot {
         modified: "—",
         kindDescription: "No file loaded"
     )
-}
-
-struct HexEditorRow: Identifiable {
-    let index: Int
-    let baseOffset: Int
-    let bytes: [UInt8]
-
-    var id: Int { index }
 }
 
 enum ExportKind {
@@ -242,7 +238,7 @@ enum HexTools {
     }
 
     nonisolated static func decodedText(for data: Data) -> String {
-        String(decoding: data, as: UTF8.self)
+        textPreview(for: data)
     }
 
     nonisolated static func hexDump(for data: Data) -> String {
@@ -274,7 +270,25 @@ enum HexTools {
         return HashSummary(md5: md5, sha1: sha1, sha256: sha256)
     }
 
-    nonisolated static func fileMetadata(for sourceURL: URL, resolvedURL: URL, dataSize: Int) -> FileMetadataSnapshot {
+    nonisolated static func hashSummary(for byteArray: HFByteArray, chunkSize: Int = 1 << 20) -> HashSummary {
+        var md5 = Insecure.MD5()
+        var sha1 = Insecure.SHA1()
+        var sha256 = SHA256()
+
+        enumerateChunks(in: byteArray, chunkSize: chunkSize) { chunk in
+            md5.update(data: chunk)
+            sha1.update(data: chunk)
+            sha256.update(data: chunk)
+        }
+
+        return HashSummary(
+            md5: md5.finalize().map { String(format: "%02x", $0) }.joined(),
+            sha1: sha1.finalize().map { String(format: "%02x", $0) }.joined(),
+            sha256: sha256.finalize().map { String(format: "%02x", $0) }.joined()
+        )
+    }
+
+    nonisolated static func fileMetadata(for sourceURL: URL, resolvedURL: URL) -> FileMetadataSnapshot {
         let formatter = ByteCountFormatter()
         formatter.allowedUnits = [.useKB, .useMB, .useGB]
         formatter.countStyle = .file
@@ -288,6 +302,7 @@ enum HexTools {
         let modifiedDate = attributes[.modificationDate] as? Date
         let owner = (attributes[.ownerAccountName] as? String) ?? "Unknown"
         let group = (attributes[.groupOwnerAccountName] as? String) ?? "Unknown"
+        let dataSize = (attributes[.size] as? NSNumber)?.intValue ?? 0
 
         let kindDescription: String
         if sourceURL.pathExtension.lowercased() == "app", let bundle = Bundle(url: sourceURL), let executableURL = bundle.executableURL {
@@ -309,6 +324,43 @@ enum HexTools {
             modified: modifiedDate.map(dateFormatter.string(from:)) ?? "—",
             kindDescription: kindDescription
         )
+    }
+
+    nonisolated static func byteArray(from data: Data) -> HFByteArray {
+        let byteSlice = HFFullMemoryByteSlice(data: data)
+        let byteArray = HFBTreeByteArray()
+        byteArray.insertByteSlice(byteSlice, in: HFRangeMake(0, 0))
+        return byteArray
+    }
+
+    nonisolated static func data(from byteArray: HFByteArray, maxBytes: Int? = nil) -> Data {
+        let totalLength = Int(clamping: byteArray.length())
+        let length = min(maxBytes ?? totalLength, totalLength)
+        guard length > 0 else { return Data() }
+
+        var data = Data(count: length)
+        data.withUnsafeMutableBytes { bytes in
+            guard let destination = bytes.bindMemory(to: UInt8.self).baseAddress else { return }
+            byteArray.copyBytes(destination, range: HFRangeMake(0, UInt64(length)))
+        }
+        return data
+    }
+
+    nonisolated static func enumerateChunks(in byteArray: HFByteArray, chunkSize: Int = 1 << 20, using block: (Data) -> Void) {
+        let totalLength = Int(clamping: byteArray.length())
+        guard totalLength > 0 else { return }
+
+        var offset = 0
+        while offset < totalLength {
+            let length = min(chunkSize, totalLength - offset)
+            var data = Data(count: length)
+            data.withUnsafeMutableBytes { bytes in
+                guard let destination = bytes.bindMemory(to: UInt8.self).baseAddress else { return }
+                byteArray.copyBytes(destination, range: HFRangeMake(UInt64(offset), UInt64(length)))
+            }
+            block(data)
+            offset += length
+        }
     }
 
     nonisolated static func resolveInspectableURL(_ sourceURL: URL) throws -> URL {
